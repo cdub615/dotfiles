@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Search for icons here: https://www.nerdfonts.com/cheat-sheet
+#                          ﱦ 齃     ﮂ 爵        ﭵ     ﱦ  ﰊ 異 ﴱ אַ
+
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+source "$CONFIG_DIR/icons.sh"  # Loads all defined icons
+
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+FONT="SF Pro"
+
+##### Bar Appearance #####
+# https://felixkratz.github.io/SketchyBar/config/bar
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+sketchybar --bar height=36 \
+  blur_radius=30 \
+  position=top \
+  sticky=off \
+  color=$BAR_COLOR \
+  corner_radius=10 \
+  y_offset=7 \
+  margin=14
+# padding_left=10 \
+# padding_right=10 \
+# border_width=2 \
+# border_color=$BORDER_COLOR
+
+# https://felixkratz.github.io/SketchyBar/config/items
+
+sketchybar --default icon.font="$FONT:Semibold:15.0" \
+  icon.color=$WHITE \
+  label.font="$FONT:Semibold:15.0" \
+  label.color=$WHITE \
+  background.corner_radius=5 \
+  background.height=24 \
+  padding_left=5 \
+  padding_right=5 \
+  label.padding_left=4 \
+  label.padding_right=10 \
+  icon.padding_left=10 \
+  icon.padding_right=4
+# background.color=$ITEM_BG_COLOR \
+
+sketchybar --add event aerospace-workspace-change
+sketchybar --add event change-focused-workspace
+sketchybar --add event change-focused-window
+sketchybar --add event move-window-within-workspace
+sketchybar --add event change-workspace
+
+# --- Left Side Items ---
+source $ITEM_DIR/apple.sh
+source $ITEM_DIR/front_app.sh
+# source $ITEM_DIR/aerospace.sh
+
+# --- Right Side Of Notch Items ---
+source $ITEM_DIR/media.sh
+
+# --- Right Side Items ---
+source $ITEM_DIR/calendar.sh
+# source $ITEM_DIR/volume.sh
+source $ITEM_DIR/battery.sh
+# source $ITEM_DIR/cpu.sh
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update
