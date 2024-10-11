@@ -18,8 +18,8 @@ after-login-command = []
 after-startup-command = ['exec-and-forget sketchybar']
 
 
-[[on-window-detected]]
-run = ['sketchybar --trigger new-window']
+# [[on-window-detected]]
+# run = ['sketchybar --trigger new-window']
 
 # Start AeroSpace at login
 start-at-login = true
