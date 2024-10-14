@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/cdub/.oh-my-zsh"
@@ -82,7 +82,7 @@ source <(fzf --zsh)
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="/opt/homebrew/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -115,9 +115,10 @@ setopt hist_verify
 # For a full list of active aliases, run `alias`.
 #
 alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="code ~/.oh-my-zsh"
-alias brew="arch -x86_64 brew"
-alias install_rosetta="/usr/sbin/softwareupdate --install-rosetta --agree-to-license"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias brew="arch -arm64 brew"
+alias brew-intel="arch -x86_64 brew"
+alias qmk="arch -arm64 qmk"
 alias install_xcode_tools="xcode-select --install"
 alias crc="/Users/cdub/.local/share/crc-macos-1.21.0-amd64/crc"
 alias psgdb-clear-keys="rm -rf ~/.ssh/pinnsg-ue1-dev-infrastructure-ssh-key && echo 'TODO remove 23.23.141.176 entries from ~/.ssh/known_hosts file'"
@@ -148,13 +149,14 @@ esac
 # pnpm end
 
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 source $(brew --prefix nvm)/nvm.sh
 
 export EDITOR="nvim"
 
 export PATH="$HOME/.tmuxifier/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -168,9 +170,10 @@ function yy() {
 eval "$(tmuxifier init -)"
 eval "$(zoxide init zsh)"
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/powerlevel10k/powerlevel10k.zsh-theme
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="/opt/homebrew/opt/avr-gcc@8/bin:$PATH"
