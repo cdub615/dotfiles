@@ -129,7 +129,7 @@ alias wt="tmuxifier load-session wt"
 alias tnb="tmuxifier load-session tnb"
 alias rvu="tmuxifier load-session rvu"
 alias stk="tmuxifier load-session stk"
-alias 3w6="tmux attach -t qmk"
+alias 3w6="tmux attach -t 3w6"
 alias dt="tmux detach"
 alias aeroconfig="nvim ~/.aerospace.toml"
 alias sketchyconfig="nvim ~/.config/sketchybar/sketchybarrc"
@@ -147,16 +147,16 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-source $(brew --prefix nvm)/nvm.sh
+# source $(brew --prefix nvm)/nvm.sh
 
 export EDITOR="nvim"
 
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$PATH:/Users/cdub/.dotnet/tools"
 
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -169,6 +169,7 @@ function yy() {
 
 eval "$(tmuxifier init -)"
 eval "$(zoxide init zsh)"
+# eval "$(/opt/homebrew/bin/brew shellenv)"
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
