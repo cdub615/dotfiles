@@ -78,6 +78,8 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git command-not-found docker npm zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+
+export PATH="/opt/homebrew/opt/fzf/bin:$PATH"
 source <(fzf --zsh)
 
 # User configuration
@@ -140,6 +142,16 @@ alias cd="z"
 alias cat="bat"
 alias p3000="lsof -n -i :3000"
 
+
+export EDITOR="nvim"
+
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$PATH:/Users/cdub/.dotnet/tools"
+export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/arm-none-eabi-gcc@8/lib"
+
+
 # pnpm
 export PNPM_HOME="/Users/cdub/Library/pnpm"
 case ":$PATH:" in
@@ -150,13 +162,7 @@ esac
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-# source $(brew --prefix nvm)/nvm.sh
-
-export EDITOR="nvim"
-
-export PATH="$HOME/.tmuxifier/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$PATH:/Users/cdub/.dotnet/tools"
+source $(brew --prefix nvm)/nvm.sh
 
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -177,4 +183,3 @@ source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/opt/homebrew/opt/avr-gcc@8/bin:$PATH"
