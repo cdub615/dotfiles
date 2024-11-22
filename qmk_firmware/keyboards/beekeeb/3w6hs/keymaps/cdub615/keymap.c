@@ -15,7 +15,8 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "os_detection.h"
+/* #include "os_detection.h" */
+#include "print.h"
 
 enum layers
 {
@@ -27,6 +28,461 @@ enum layers
     _NAV,
     _CFG,
 };
+
+/* bool process_detected_host_os_user(os_variant_t detected_os) { */
+/*     switch (detected_os) { */
+/*         case OS_MACOS: */
+/*         case OS_IOS: */
+/*             print("Detected mac or ios, setting default layer to _ALPHA_QWERTY"); */
+/*             tap_code16(DF(_ALPHA_QWERTY)); */
+/*             break; */
+/*         case OS_WINDOWS: */
+/*             print("Detected windows, setting default layer to _ALPHA_QWERTY_PC"); */
+/*             tap_code16(DF(_ALPHA_QWERTY_PC)); */
+/*             break; */
+/*         case OS_LINUX: */
+/*             print("Detected linux, setting default layer to _ALPHA_QWERTY_PC"); */
+/*             tap_code16(DF(_ALPHA_QWERTY_PC)); */
+/*             break; */
+/*         case OS_UNSURE: */
+/*             print("Detected unsure, setting default layer to _ALPHA_QWERTY"); */
+/*             tap_code16(DF(_ALPHA_QWERTY)); */
+/*             break; */
+/*     } */
+
+/*     return true; */
+/* } */
+
+/* // Define tap dance states */
+/* typedef enum { */
+/*     TD_NONE, */
+/*     TD_SINGLE_TAP, */
+/*     TD_SINGLE_HOLD, */
+/* } td_state_t; */
+
+/* // Create a struct to track the tap dance state */
+/* typedef struct { */
+/*     td_state_t state; */
+/*     uint16_t timer; */
+/*     uint16_t keycode; */
+/*     bool is_pc_mode; */
+/*     bool is_ctl_sft; */
+/*     bool is_alt; */
+/* } td_tap_t; */
+
+/* // Define maximum number of custom keys (adjust as needed) */
+/* #define NUM_CUSTOM_KEYS 5  // Example: comma, period, semicolon, etc. */
+/* #define NUM_LETTER_KEYS 26 // A-Z */
+/* #define TOTAL_KEYS (NUM_LETTER_KEYS + NUM_CUSTOM_KEYS) */
+
+/* // Initialize tap dance states */
+/* static td_tap_t td_states[TOTAL_KEYS * 2];  // Times 2 for PC/Mac modes */
+
+/* // Function to determine tap dance state */
+/* /1* td_state_t get_tap_dance_state(tap_dance_state_t *state) { *1/ */
+/* /1*     if (state->interrupted || state->pressed == 0) { *1/ */
+/* /1*         if (state->count == 1) { *1/ */
+/* /1*             return TD_SINGLE_TAP; *1/ */
+/* /1*         } *1/ */
+/* /1*     } else if (state->pressed) { *1/ */
+/* /1*         return TD_SINGLE_HOLD; *1/ */
+/* /1*     } *1/ */
+/* /1*     return TD_NONE; *1/ */
+/* /1* } *1/ */
+
+/* // Fixed state detection function */
+/* td_state_t get_tap_dance_state(tap_dance_state_t *state) { */
+/*     // If key was tapped (not held) */
+/*     if (!state->pressed) { */
+/*         return TD_SINGLE_TAP; */
+/*     } */
+
+/*     // If key is still being held */
+/*     if (state->pressed) { */
+/*         return TD_SINGLE_HOLD; */
+/*     } */
+
+/*     return TD_NONE; */
+/* } */
+
+/* // Calculate index for state array */
+/* int get_state_index(uint16_t keycode, bool is_pc_mode) { */
+/*     int base_index; */
+/*     if (keycode >= KC_A && keycode <= KC_Z) { */
+/*         base_index = keycode - KC_A; */
+/*     } else { */
+/*         // Custom keys start after the letters */
+/*         switch (keycode) { */
+/*             case KC_COMMA:  base_index = NUM_LETTER_KEYS + 0; break; */
+/*             case KC_DOT:    base_index = NUM_LETTER_KEYS + 1; break; */
+/*             case KC_ENT:   base_index = NUM_LETTER_KEYS + 2; break; */
+/*             case KC_SPC:   base_index = NUM_LETTER_KEYS + 3; break; */
+/*             case KC_BSPC:   base_index = NUM_LETTER_KEYS + 4; break; */
+/*             default:        base_index = 0; break; */
+/*         } */
+/*     } */
+/*     return base_index + (is_pc_mode ? TOTAL_KEYS : 0); */
+/* } */
+
+/* // Generic tap dance handler for keys */
+/* void key_tap_dance_finished(tap_dance_state_t *state, void *user_data) { */
+/*     td_tap_t *tap_data = (td_tap_t*)user_data; */
+/*     uint16_t keycode = tap_data->keycode; */
+/*     int index = get_state_index(keycode, tap_data->is_pc_mode); */
+/*     td_states[index].state = get_tap_dance_state(state); */
+
+/*     switch (td_states[index].state) { */
+/*         case TD_SINGLE_TAP: */
+/*             register_code(keycode); */
+/*             break; */
+/*         case TD_SINGLE_HOLD: */
+/*             if (tap_data->is_ctl_sft) { */
+/*                 register_code(KC_LCTL); */
+/*                 register_code(KC_LSFT); */
+/*             } else if (tap_data->is_alt) { */
+/*                 register_code(KC_LALT); */
+/*             } else if (tap_data->is_pc_mode) { */
+/*                 register_code(KC_LCTL); */
+/*             } else { */
+/*                 register_code(KC_LGUI); */
+/*             } */
+/*             register_code(keycode); */
+/*             break; */
+/*         default: */
+/*             break; */
+/*     } */
+/* } */
+
+/* void key_tap_dance_reset(tap_dance_state_t *state, void *user_data) { */
+/*     td_tap_t *tap_data = (td_tap_t*)user_data; */
+/*     uint16_t keycode = tap_data->keycode; */
+/*     int index = get_state_index(keycode, tap_data->is_pc_mode); */
+
+/*     switch (td_states[index].state) { */
+/*         case TD_SINGLE_TAP: */
+/*             unregister_code(keycode); */
+/*             break; */
+/*         case TD_SINGLE_HOLD: */
+/*             unregister_code(keycode); */
+/*             if (tap_data->is_ctl_sft) { */
+/*                 unregister_code(KC_LSFT); */
+/*                 unregister_code(KC_LCTL); */
+/*             } else if (tap_data->is_alt) { */
+/*                 unregister_code(KC_LALT); */
+/*             } else if (tap_data->is_pc_mode) { */
+/*                 unregister_code(KC_LCTL); */
+/*             } else { */
+/*                 unregister_code(KC_LGUI); */
+/*             } */
+/*             break; */
+/*         default: */
+/*             break; */
+/*     } */
+/*     td_states[index].state = TD_NONE; */
+/* } */
+
+/* // Static storage for tap data */
+/* static td_tap_t mac_tap_data[TOTAL_KEYS];  // For Mac mode (GUI) */
+/* static td_tap_t pc_tap_data[TOTAL_KEYS];   // For PC mode (Control) */
+
+/* // Initialize tap data */
+/* void init_tap_data(void) { */
+/*     // Initialize letter keys */
+/*     for (int i = 0; i < NUM_LETTER_KEYS; i++) { */
+/*         // Mac mode */
+/*         mac_tap_data[i].keycode = KC_A + i; */
+/*         mac_tap_data[i].is_pc_mode = false; */
+/*         mac_tap_data[i].is_ctl_sft = false; */
+/*         mac_tap_data[i].is_alt = false; */
+
+/*         // PC mode */
+/*         pc_tap_data[i].keycode = KC_A + i; */
+/*         pc_tap_data[i].is_pc_mode = true; */
+/*         pc_tap_data[i].is_ctl_sft = false; */
+/*         pc_tap_data[i].is_alt = false; */
+/*     } */
+
+/*     // Initialize custom keys */
+/*     int index = NUM_LETTER_KEYS; */
+
+/*     // Comma */
+/*     mac_tap_data[index].keycode = KC_COMMA; */
+/*     mac_tap_data[index].is_pc_mode = false; */
+/*     mac_tap_data[index].is_ctl_sft = false; */
+/*     mac_tap_data[index].is_alt = false; */
+/*     pc_tap_data[index].keycode = KC_COMMA; */
+/*     pc_tap_data[index].is_pc_mode = true; */
+/*     pc_tap_data[index].is_ctl_sft = false; */
+/*     pc_tap_data[index].is_alt = false; */
+/*     index++; */
+
+/*     // Period */
+/*     mac_tap_data[index].keycode = KC_DOT; */
+/*     mac_tap_data[index].is_pc_mode = false; */
+/*     mac_tap_data[index].is_ctl_sft = false; */
+/*     mac_tap_data[index].is_alt = false; */
+/*     pc_tap_data[index].keycode = KC_DOT; */
+/*     pc_tap_data[index].is_pc_mode = true; */
+/*     pc_tap_data[index].is_ctl_sft = false; */
+/*     pc_tap_data[index].is_alt = false; */
+/*     index++; */
+
+/*     // Enter */
+/*     mac_tap_data[index].keycode = KC_ENT; */
+/*     mac_tap_data[index].is_pc_mode = false; */
+/*     mac_tap_data[index].is_ctl_sft = true; */
+/*     mac_tap_data[index].is_alt = false; */
+/*     pc_tap_data[index].keycode = KC_ENT; */
+/*     pc_tap_data[index].is_pc_mode = true; */
+/*     pc_tap_data[index].is_ctl_sft  = true; */
+/*     pc_tap_data[index].is_alt = false; */
+/*     index++; */
+
+/*     // Space */
+/*     mac_tap_data[index].keycode = KC_SPC; */
+/*     mac_tap_data[index].is_pc_mode = false; */
+/*     mac_tap_data[index].is_ctl_sft = false; */
+/*     mac_tap_data[index].is_alt = false; */
+/*     pc_tap_data[index].keycode = KC_SPC; */
+/*     pc_tap_data[index].is_pc_mode = true; */
+/*     pc_tap_data[index].is_ctl_sft = false; */
+/*     pc_tap_data[index].is_alt = false; */
+/*     index++; */
+
+/*     // Backspace */
+/*     mac_tap_data[index].keycode = KC_BSPC; */
+/*     mac_tap_data[index].is_pc_mode = false; */
+/*     mac_tap_data[index].is_ctl_sft = false; */
+/*     mac_tap_data[index].is_alt = true; */
+/*     pc_tap_data[index].keycode = KC_BSPC; */
+/*     pc_tap_data[index].is_pc_mode = true; */
+/*     pc_tap_data[index].is_ctl_sft = false; */
+/*     pc_tap_data[index].is_alt = true; */
+/*     index++; */
+/* } */
+
+/* // Define tap dance actions for letters and custom keys - fixed macro definitions */
+/* #define ACTION_TAP_DANCE_KEY_MAC(kc_name, array_index) \ */
+/*     [TD_MAC_##kc_name] = { \ */
+/*         .fn = { \ */
+/*             NULL, \ */
+/*             key_tap_dance_finished, \ */
+/*             key_tap_dance_reset \ */
+/*         }, \ */
+/*         .user_data = (void*)&mac_tap_data[array_index] \ */
+/*     } */
+
+/* #define ACTION_TAP_DANCE_KEY_PC(kc_name, array_index) \ */
+/*     [TD_PC_##kc_name] = { \ */
+/*         .fn = { \ */
+/*             NULL, \ */
+/*             key_tap_dance_finished, \ */
+/*             key_tap_dance_reset \ */
+/*         }, \ */
+/*         .user_data = (void*)&pc_tap_data[array_index] \ */
+/*     } */
+
+/* // Define tap dance actions for letters and custom keys */
+/* /1* #define ACTION_TAP_DANCE_KEY_MAC(kc_name, array_index) \ *1/ */
+/* /1*     [TD_MAC_##kc_name] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, key_tap_dance_finished, key_tap_dance_reset, \ *1/ */
+/* /1*         (void*)&mac_tap_data[array_index]) *1/ */
+
+/* /1* #define ACTION_TAP_DANCE_KEY_PC(kc_name, array_index) \ *1/ */
+/* /1*     [TD_PC_##kc_name] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, key_tap_dance_finished, key_tap_dance_reset, \ *1/ */
+/* /1*         (void*)&pc_tap_data[array_index]) *1/ */
+
+/* enum tap_dance_codes { */
+/*     // Mac mode tap dances */
+/*     TD_MAC_A, */
+/*     TD_MAC_B, */
+/*     TD_MAC_C, */
+/*     TD_MAC_D, */
+/*     TD_MAC_E, */
+/*     TD_MAC_F, */
+/*     TD_MAC_G, */
+/*     TD_MAC_H, */
+/*     TD_MAC_I, */
+/*     TD_MAC_J, */
+/*     TD_MAC_K, */
+/*     TD_MAC_L, */
+/*     TD_MAC_M, */
+/*     TD_MAC_N, */
+/*     TD_MAC_O, */
+/*     TD_MAC_P, */
+/*     TD_MAC_Q, */
+/*     TD_MAC_R, */
+/*     TD_MAC_S, */
+/*     TD_MAC_T, */
+/*     TD_MAC_U, */
+/*     TD_MAC_V, */
+/*     TD_MAC_W, */
+/*     TD_MAC_X, */
+/*     TD_MAC_Y, */
+/*     TD_MAC_Z, */
+/*     TD_MAC_COMMA, */
+/*     TD_MAC_DOT, */
+/*     TD_MAC_ENT, */
+/*     TD_MAC_SPC, */
+/*     TD_MAC_BSPC, */
+
+/*     // PC mode tap dances */
+/*     TD_PC_A, */
+/*     TD_PC_B, */
+/*     TD_PC_C, */
+/*     TD_PC_D, */
+/*     TD_PC_E, */
+/*     TD_PC_F, */
+/*     TD_PC_G, */
+/*     TD_PC_H, */
+/*     TD_PC_I, */
+/*     TD_PC_J, */
+/*     TD_PC_K, */
+/*     TD_PC_L, */
+/*     TD_PC_M, */
+/*     TD_PC_N, */
+/*     TD_PC_O, */
+/*     TD_PC_P, */
+/*     TD_PC_Q, */
+/*     TD_PC_R, */
+/*     TD_PC_S, */
+/*     TD_PC_T, */
+/*     TD_PC_U, */
+/*     TD_PC_V, */
+/*     TD_PC_W, */
+/*     TD_PC_X, */
+/*     TD_PC_Y, */
+/*     TD_PC_Z, */
+/*     TD_PC_COMMA, */
+/*     TD_PC_DOT, */
+/*     TD_PC_ENT, */
+/*     TD_PC_SPC, */
+/*     TD_PC_BSPC, */
+/* }; */
+
+/* // Add these to your tap dance actions */
+/* tap_dance_action_t tap_dance_actions[] = { */
+/*     // Mac mode (GUI modifier) */
+/*     ACTION_TAP_DANCE_KEY_MAC(A, 0), */
+/*     ACTION_TAP_DANCE_KEY_MAC(B, 1), */
+/*     ACTION_TAP_DANCE_KEY_MAC(C, 2), */
+/*     ACTION_TAP_DANCE_KEY_MAC(D, 3), */
+/*     ACTION_TAP_DANCE_KEY_MAC(E, 4), */
+/*     ACTION_TAP_DANCE_KEY_MAC(F, 5), */
+/*     ACTION_TAP_DANCE_KEY_MAC(G, 6), */
+/*     ACTION_TAP_DANCE_KEY_MAC(H, 7), */
+/*     ACTION_TAP_DANCE_KEY_MAC(I, 8), */
+/*     ACTION_TAP_DANCE_KEY_MAC(J, 9), */
+/*     ACTION_TAP_DANCE_KEY_MAC(K, 10), */
+/*     ACTION_TAP_DANCE_KEY_MAC(L, 11), */
+/*     ACTION_TAP_DANCE_KEY_MAC(M, 12), */
+/*     ACTION_TAP_DANCE_KEY_MAC(N, 13), */
+/*     ACTION_TAP_DANCE_KEY_MAC(O, 14), */
+/*     ACTION_TAP_DANCE_KEY_MAC(P, 15), */
+/*     ACTION_TAP_DANCE_KEY_MAC(Q, 16), */
+/*     ACTION_TAP_DANCE_KEY_MAC(R, 17), */
+/*     ACTION_TAP_DANCE_KEY_MAC(S, 18), */
+/*     ACTION_TAP_DANCE_KEY_MAC(T, 19), */
+/*     ACTION_TAP_DANCE_KEY_MAC(U, 20), */
+/*     ACTION_TAP_DANCE_KEY_MAC(V, 21), */
+/*     ACTION_TAP_DANCE_KEY_MAC(W, 22), */
+/*     ACTION_TAP_DANCE_KEY_MAC(X, 23), */
+/*     ACTION_TAP_DANCE_KEY_MAC(Y, 24), */
+/*     ACTION_TAP_DANCE_KEY_MAC(Z, 25), */
+/*     ACTION_TAP_DANCE_KEY_MAC(COMMA, 26),  // NUM_LETTER_KEYS + 0 */
+/*     ACTION_TAP_DANCE_KEY_MAC(DOT, 27),    // NUM_LETTER_KEYS + 1 */
+/*     ACTION_TAP_DANCE_KEY_MAC(ENT, 28),   // NUM_LETTER_KEYS + 2 */
+/*     ACTION_TAP_DANCE_KEY_MAC(SPC, 29),   // NUM_LETTER_KEYS + 3 */
+/*     ACTION_TAP_DANCE_KEY_MAC(BSPC, 30),   // NUM_LETTER_KEYS + 4 */
+
+/*     // PC mode (Control modifier) */
+/*     ACTION_TAP_DANCE_KEY_PC(A, 0), */
+/*     ACTION_TAP_DANCE_KEY_PC(B, 1), */
+/*     ACTION_TAP_DANCE_KEY_PC(C, 2), */
+/*     ACTION_TAP_DANCE_KEY_PC(D, 3), */
+/*     ACTION_TAP_DANCE_KEY_PC(E, 4), */
+/*     ACTION_TAP_DANCE_KEY_PC(F, 5), */
+/*     ACTION_TAP_DANCE_KEY_PC(G, 6), */
+/*     ACTION_TAP_DANCE_KEY_PC(H, 7), */
+/*     ACTION_TAP_DANCE_KEY_PC(I, 8), */
+/*     ACTION_TAP_DANCE_KEY_PC(J, 9), */
+/*     ACTION_TAP_DANCE_KEY_PC(K, 10), */
+/*     ACTION_TAP_DANCE_KEY_PC(L, 11), */
+/*     ACTION_TAP_DANCE_KEY_PC(M, 12), */
+/*     ACTION_TAP_DANCE_KEY_PC(N, 13), */
+/*     ACTION_TAP_DANCE_KEY_PC(O, 14), */
+/*     ACTION_TAP_DANCE_KEY_PC(P, 15), */
+/*     ACTION_TAP_DANCE_KEY_PC(Q, 16), */
+/*     ACTION_TAP_DANCE_KEY_PC(R, 17), */
+/*     ACTION_TAP_DANCE_KEY_PC(S, 18), */
+/*     ACTION_TAP_DANCE_KEY_PC(T, 19), */
+/*     ACTION_TAP_DANCE_KEY_PC(U, 20), */
+/*     ACTION_TAP_DANCE_KEY_PC(V, 21), */
+/*     ACTION_TAP_DANCE_KEY_PC(W, 22), */
+/*     ACTION_TAP_DANCE_KEY_PC(X, 23), */
+/*     ACTION_TAP_DANCE_KEY_PC(Y, 24), */
+/*     ACTION_TAP_DANCE_KEY_PC(Z, 25), */
+/*     ACTION_TAP_DANCE_KEY_PC(COMMA, 26),   // NUM_LETTER_KEYS + 0 */
+/*     ACTION_TAP_DANCE_KEY_PC(DOT, 27),     // NUM_LETTER_KEYS + 1 */
+/*     ACTION_TAP_DANCE_KEY_PC(ENT, 28),   // NUM_LETTER_KEYS + 2 */
+/*     ACTION_TAP_DANCE_KEY_PC(SPC, 29),   // NUM_LETTER_KEYS + 3 */
+/*     ACTION_TAP_DANCE_KEY_PC(BSPC, 30),   // NUM_LETTER_KEYS + 4 */
+/* }; */
+
+/* void keyboard_init_user(void) { */
+/*     init_tap_data(); */
+/* } */
+
+
+/* const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = { */
+
+
+/*     [_ALPHA_QWERTY] = LAYOUT_split_3x5_3( */
+/*         TD(TD_MAC_Q),    TD(TD_MAC_W),    TD(TD_MAC_E),    TD(TD_MAC_R),    TD(TD_MAC_T),                                                TD(TD_MAC_Y),    TD(TD_MAC_U),    TD(TD_MAC_I),     TD(TD_MAC_O),    TD(TD_MAC_P), */
+/*         TD(TD_MAC_A),    TD(TD_MAC_S),    TD(TD_MAC_D),    TD(TD_MAC_F),    TD(TD_MAC_G),                                                TD(TD_MAC_H),    TD(TD_MAC_J),    TD(TD_MAC_K),     TD(TD_MAC_L),    TD(TD_MAC_BSPC), */
+/*         TD(TD_MAC_Z),    TD(TD_MAC_X),    TD(TD_MAC_C),    TD(TD_MAC_V),    TD(TD_MAC_B),                                                TD(TD_MAC_N),    TD(TD_MAC_M),    TD(TD_MAC_COMMA), TD(TD_MAC_DOT),  LSA_T(KC_SLASH), */
+
+/*                                                                                     KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_MAC_SPC), MO(_NUM), KC_LALT */
+/*     ), */
+/*     [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3( */
+/*         TD(TD_MAC_Q),    TD(TD_MAC_W),    TD(TD_MAC_F),    TD(TD_MAC_P),    TD(TD_MAC_B),                                                TD(TD_MAC_J),    TD(TD_MAC_L),    TD(TD_MAC_U),     TD(TD_MAC_Y),    TD(TD_MAC_BSPC), */
+/*         TD(TD_MAC_A),    TD(TD_MAC_R),    TD(TD_MAC_S),    TD(TD_MAC_T),    TD(TD_MAC_G),                                                TD(TD_MAC_M),    TD(TD_MAC_N),    TD(TD_MAC_E),     TD(TD_MAC_I),    TD(TD_MAC_O), */
+/*         TD(TD_MAC_Z),    TD(TD_MAC_X),    TD(TD_MAC_C),    TD(TD_MAC_D),    TD(TD_MAC_V),                                                TD(TD_MAC_K),    TD(TD_MAC_H),    TD(TD_MAC_COMMA), TD(TD_MAC_DOT),  LSA_T(KC_SLASH), */
+/*                                                                                     KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_MAC_SPC), MO(_NUM), KC_LALT */
+/*     ), */
+/*     [_ALPHA_QWERTY_PC] = LAYOUT_split_3x5_3( */
+/*         TD(TD_PC_Q),    TD(TD_PC_W),    TD(TD_PC_E),    TD(TD_PC_R),    TD(TD_PC_T),                                                TD(TD_PC_Y),    TD(TD_PC_U),    TD(TD_PC_I),     TD(TD_PC_O),    TD(TD_PC_P), */
+/*         TD(TD_PC_A),    TD(TD_PC_S),    TD(TD_PC_D),    TD(TD_PC_F),    TD(TD_PC_G),                                                TD(TD_PC_H),    TD(TD_PC_J),    TD(TD_PC_K),     TD(TD_PC_L),    TD(TD_PC_BSPC), */
+/*         TD(TD_PC_Z),    TD(TD_PC_X),    TD(TD_PC_C),    TD(TD_PC_V),    TD(TD_PC_B),                                                TD(TD_PC_N),    TD(TD_PC_M),    TD(TD_PC_COMMA), TD(TD_PC_DOT),  LSA_T(KC_SLASH), */
+/*                                                                                     KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_PC_SPC), MO(_NUM), KC_LALT */
+/*     ), */
+/*     [_SYM] = LAYOUT_split_3x5_3( */
+/*         RSFT(KC_1), RSFT(KC_2),   RSFT(KC_3),  RSFT(KC_4), RSFT(KC_5),                                RSFT(KC_6), RSFT(KC_7), RSFT(KC_8), KC_SCLN, RSFT(KC_SCLN), */
+/*         KC_ESC, KC_LCTL, RCS_T(KC_ENT), KC_TAB,  KC_LSFT,                                KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_QUOT, */
+/*         XXXXXXX, XXXXXXX, XXXXXXX, LCA(KC_DELETE), KC_LGUI,                                KC_HOME, KC_END, KC_PGDN, KC_PGUP, RSFT(KC_QUOTE), */
+/*                                         XXXXXXX, XXXXXXX, KC_TRNS,     KC_RALT, MO(_NAV), KC_TRNS */
+/*     ), */
+/*     [_NUM] = LAYOUT_split_3x5_3( */
+/*         KC_ESC,  XXXXXXX, LSFT(KC_9), LSFT(KC_0), LSFT(KC_MINUS),                                    KC_MINUS,  KC_7,  KC_8,  KC_9, KC_DOT, */
+/*         KC_TAB,  LSFT(KC_BSLS),  LSFT(KC_LBRC),  LSFT(KC_RBRC),  LSFT(KC_EQUAL),           KC_EQUAL,  KC_4,  KC_5,  KC_6, KC_ENT, */
+/*         KC_GRAVE,  LSFT(KC_GRAVE),  KC_LBRC,  KC_RBRC,  KC_BSLS,                           KC_0,  KC_1,  KC_2,  KC_3, KC_PAST, */
+/*                                                                     KC_LALT, MO(_CFG), KC_LSFT,      XXXXXXX, XXXXXXX, KC_TRNS */
+/*     ), */
+/*     [_NAV] = LAYOUT_split_3x5_3( */
+/*         KC_WH_L, KC_WH_R, KC_MS_U, XXXXXXX, KC_MUTE,                                KC_MRWD, KC_MPRV, KC_MNXT, KC_BRIU,  KC_VOLU, */
+/*         XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, KC_LSFT,                                KC_MFFD, KC_BTN1, KC_BTN2, KC_BRID,  KC_VOLD, */
+/*         XXXXXXX, KC_MPLY, KC_WH_D, KC_WH_U, KC_LGUI,                                XXXXXXX, KC_ACL0, KC_ACL1, KC_ACL2, XXXXXXX, */
+/*                                         XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX */
+/*     ), */
+/*     [_CFG] = LAYOUT_split_3x5_3( */
+/*         QK_BOOT, QK_REBOOT, XXXXXXX, XXXXXXX, XXXXXXX,                                              XXXXXXX, KC_F9, KC_F10, KC_F11, KC_F12, */
+/*         XXXXXXX, XXXXXXX, DF(_ALPHA_COLEMAK_DH), DF(_ALPHA_QWERTY), DF(_ALPHA_QWERTY_PC),           XXXXXXX, KC_F5, KC_F6, KC_F7, KC_F8, */
+/*         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                                XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F4, */
+/*                                                 XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX */
+/*     ), */
+/* }; */
+
+
+
 
 enum {
     TD_Q,
@@ -91,26 +547,6 @@ enum {
     TD_DOT_PC,
 };
 
-
-bool process_detected_host_os_user(os_variant_t detected_os) {
-    switch (detected_os) {
-        case OS_MACOS:
-        case OS_IOS:
-            tap_code16(DF(_ALPHA_QWERTY));
-            break;
-        case OS_WINDOWS:
-            tap_code16(DF(_ALPHA_QWERTY_PC));
-            break;
-        case OS_LINUX:
-            tap_code16(DF(_ALPHA_QWERTY_PC));
-            break;
-        case OS_UNSURE:
-            tap_code16(DF(_ALPHA_QWERTY));
-            break;
-    }
-
-    return true;
-}
 
 typedef struct {
     uint16_t tap;
@@ -641,6 +1077,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
@@ -649,23 +1086,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TD(TD_A),    TD(TD_S),    TD(TD_D),    TD(TD_F),    TD(TD_G),                                                TD(TD_H),    TD(TD_J),    TD(TD_K),     TD(TD_L),    TD(TD_BSPC),
         TD(TD_Z),    TD(TD_X),    TD(TD_C),    TD(TD_V),    TD(TD_B),                                                TD(TD_N),    TD(TD_M),    TD(TD_COMMA), TD(TD_DOT),  LSA_T(KC_SLASH),
 
-                                                                KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
+                                                                                    KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
     ),
     [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3(
         TD(TD_Q),    TD(TD_W),    TD(TD_F),    TD(TD_P),    TD(TD_B),                                                TD(TD_J),    TD(TD_L),    TD(TD_U),     TD(TD_Y),    TD(TD_BSPC),
         TD(TD_A),    TD(TD_R),    TD(TD_S),    TD(TD_T),    TD(TD_G),                                                TD(TD_M),    TD(TD_N),    TD(TD_E),     TD(TD_I),    TD(TD_O),
         TD(TD_Z),    TD(TD_X),    TD(TD_C),    TD(TD_D),    TD(TD_V),                                                TD(TD_K),    TD(TD_H),    TD(TD_COMMA), TD(TD_DOT),  LSA_T(KC_SLASH),
-                                                                KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
+                                                                                    KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
     ),
     [_ALPHA_QWERTY_PC] = LAYOUT_split_3x5_3(
         TD(TD_Q_PC),    TD(TD_W_PC),    TD(TD_E_PC),    TD(TD_R_PC),    TD(TD_T_PC),                                                TD(TD_Y_PC),    TD(TD_U_PC),    TD(TD_I_PC),     TD(TD_O_PC),    TD(TD_P_PC),
         TD(TD_A_PC),    TD(TD_S_PC),    TD(TD_D_PC),    TD(TD_F_PC),    TD(TD_G_PC),                                                TD(TD_H_PC),    TD(TD_J_PC),    TD(TD_K_PC),     TD(TD_L_PC),    TD(TD_BSPC),
         TD(TD_Z_PC),    TD(TD_X_PC),    TD(TD_C_PC),    TD(TD_V_PC),    TD(TD_B_PC),                                                TD(TD_N_PC),    TD(TD_M_PC),    TD(TD_COMMA_PC), TD(TD_DOT_PC),  LSA_T(KC_SLASH),
-                                                                KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
+                                                                                    KC_LCTL, MO(_SYM), KC_LSFT,     TD(TD_SPC), MO(_NUM), KC_LALT
     ),
     [_SYM] = LAYOUT_split_3x5_3(
         RSFT(KC_1), RSFT(KC_2),   RSFT(KC_3),  RSFT(KC_4), RSFT(KC_5),                                RSFT(KC_6), RSFT(KC_7), RSFT(KC_8), KC_SCLN, RSFT(KC_SCLN),
-        KC_ESC, KC_LCTL, TD(TD_ENT), KC_TAB,  KC_LSFT,                                KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_COMMA,
+        KC_ESC, KC_LCTL, RCS_T(KC_ENT), KC_TAB,  KC_LSFT,                                KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_QUOT,
         XXXXXXX, XXXXXXX, XXXXXXX, LCA(KC_DELETE), KC_LGUI,                                KC_HOME, KC_END, KC_PGDN, KC_PGUP, RSFT(KC_QUOTE),
                                         XXXXXXX, XXXXXXX, KC_TRNS,     KC_RALT, MO(_NAV), KC_TRNS
     ),

@@ -148,10 +148,11 @@ export EDITOR="nvim"
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$PATH:/Users/cdub/.dotnet/tools"
-export PATH="/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/arm-none-eabi-gcc@8/lib"
-export PATH="/opt/homebrew/opt/arm-none-eabi-binutils/bin:$PATH"
 
+# Golang environment variables
+export GOROOT=$(brew --prefix go)/libexec
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
 
 # pnpm
 export PNPM_HOME="/Users/cdub/Library/pnpm"
@@ -172,6 +173,23 @@ function yy() {
 		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
+}
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+# for pattern_file in $HOME/.config/fabric/patterns/*; do
+#     # Get the base name of the file (i.e., remove the directory path)
+#     pattern_name=$(basename "$pattern_file")
+    
+#     # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
+#     alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
+    
+#     # Evaluate the alias command to add it to the current shell
+#     eval "$alias_command"
+# done
+
+yt() {
+    local video_link="$1"
+    fabric -y "$video_link" --transcript
 }
 
 eval "$(tmuxifier init -)"
