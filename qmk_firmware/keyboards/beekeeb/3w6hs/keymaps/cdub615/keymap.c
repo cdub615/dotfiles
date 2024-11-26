@@ -28,42 +28,105 @@ enum layers
     _CFG,
 };
 
+enum {
+    TD_COMMA_DASH,
+    TD_DOT_EXCLM,
+    TD_SLASH_USCR,
+    TD_QUOT_DBLQUOT,
+};
 
+typedef struct {
+    uint16_t tap;
+    uint16_t hold;
+    uint16_t held;
+} tap_dance_tap_hold_t;
 
-/*
- * Get rid of the the tap dances for base layers
- *
- * home row mods for alt and gui on both sides
- *
- * some tap holds for other layers?
- *
- * then thumbs will have ctrl, shift, space, and where do we want like tab, bkspc, del, esc
- *
- *
- * one person had esc (fx layer), spc (shft), tab (numbers layer), --> bkspc (arrows, media), ent (symbol layer)
- *
- * ben vallack has spc (meh), shft, --> ctrl, layer 2
- *      but with home row mods for gui and alt, and holds for the shift versions of the symbols in base layer
- *      (, - --> . ! --> / _)
-*/
-void keyboard_post_init_user(void) {
-    debug_enable=true;
-    debug_matrix=true;
-    debug_keyboard=true;
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    tap_dance_action_t *action;
+
+    switch (keycode) {
+        case TD(TD_COMMA_DASH):  // list all tap dance keycodes with tap-hold configurations
+            action = &tap_dance_actions[TD_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+        case TD(TD_DOT_EXCLM):
+            action = &tap_dance_actions[TD_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+        case TD(TD_SLASH_USCR):
+            action = &tap_dance_actions[TD_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+        case TD(TD_QUOT_DBLQUOT):
+            action = &tap_dance_actions[TD_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+    }
+    return true;
 }
 
+void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (state->pressed) {
+        if (state->count == 1
+#ifndef PERMISSIVE_HOLD
+            && !state->interrupted
+#endif
+        ) {
+            register_code16(tap_hold->hold);
+            tap_hold->held = tap_hold->hold;
+        } else {
+            register_code16(tap_hold->tap);
+            tap_hold->held = tap_hold->tap;
+        }
+    }
+}
+
+void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (tap_hold->held) {
+        unregister_code16(tap_hold->held);
+        tap_hold->held = 0;
+    }
+}
+
+#define ACTION_TAP_DANCE_TAP_HOLD(tap, hold) \
+    { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_COMMA_DASH] = ACTION_TAP_DANCE_TAP_HOLD(KC_COMMA, KC_MINUS),
+    [TD_DOT_EXCLM] = ACTION_TAP_DANCE_TAP_HOLD(KC_DOT, RSFT(KC_1)),
+    [TD_SLASH_USCR] = ACTION_TAP_DANCE_TAP_HOLD(KC_SLASH, RSFT(KC_MINUS)),
+    [TD_QUOT_DBLQUOT] = ACTION_TAP_DANCE_TAP_HOLD(KC_QUOTE, RSFT(KC_QUOTE)),
+};
+
+/* consider caps word */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA_QWERTY] = LAYOUT_split_3x5_3(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                KC_Y,    KC_U,    KC_I,     KC_O,    KC_P,
-        KC_A,    KC_S,    LALT_T(KC_D),    LGUI_T(KC_F),    LT(_CFG, KC_G),                     KC_H,    LGUI_T(KC_J),    LALT_T(KC_K),     KC_L,    KC_BSPC,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                KC_N,    KC_M,    KC_COMMA, KC_DOT,  LSA_T(KC_SLASH),
-                                LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_LSFT,     KC_LCTL, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
+        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                KC_Y,    KC_U,    KC_I,     KC_O,    TD(TD_QUOT_DBLQUOT),
+        LGUI_T(KC_A),  LALT_T(KC_S),  LCTL_T(KC_D),  LSFT_T(KC_F),  LT(_CFG, KC_G),         KC_H,    RSFT_T(KC_J),    RCTL_T(KC_K),     RALT_T(KC_L),    RGUI_T(KC_P),
+        C_S_T(KC_Z),    LSA_T(KC_X),    KC_C,    KC_V,    KC_B,                                                KC_N,    KC_M,    TD(TD_COMMA_DASH), TD(TD_DOT_EXCLM),  TD(TD_SLASH_USCR),
+                                    LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
     ),
     [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3(
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                KC_J,    KC_L,    KC_U,     KC_Y,    KC_BSPC,
-        KC_A,    KC_R,    LALT_T(KC_S),    LGUI_T(KC_T),    LT(_CFG, KC_G),                     KC_M,    LGUI_T(KC_N),    LALT_T(KC_E),     KC_I,    KC_O,
-        KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                                                KC_K,    KC_H,    KC_COMMA, KC_DOT,  LSA_T(KC_SLASH),
-                                KC_ESC, LT(_SYM, KC_TAB), KC_LSFT,     KC_LCTL, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
+        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                KC_J,    KC_L,    KC_U,     KC_Y,    TD(TD_QUOT_DBLQUOT),
+        LGUI_T(KC_A),  LALT_T(KC_R),  LCTL_T(KC_S),  LSFT_T(KC_T),  LT(_CFG, KC_G),         KC_M,    RSFT_T(KC_N),    RCTL_T(KC_E),     RALT_T(KC_I),    RGUI_T(KC_O),
+        C_S_T(KC_Z),    LSA_T(KC_X),    KC_C,    KC_D,    KC_V,                                                KC_K,    KC_H,    TD(TD_COMMA_DASH), TD(TD_DOT_EXCLM),  TD(TD_SLASH_USCR),
+                                    LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
     ),
     [_SYM] = LAYOUT_split_3x5_3(
         RSFT(KC_1), RSFT(KC_2),   RSFT(KC_3),  RSFT(KC_4), RSFT(KC_5),                                RSFT(KC_6), RSFT(KC_7), RSFT(KC_8), KC_SCLN, RSFT(KC_SCLN),
@@ -90,73 +153,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     QK_BOOT, QK_REBOOT, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
     ),
 };
-
-
-
-
-
-
-
-/* enum { */
-/*     TD_COMMA, */
-/*     TD_DOT, */
-/*     TD_ENT, */
-/*     TD_SPC, */
-/*     TD_BSPC, */
-/* }; */
-
-
-/* typedef struct { */
-/*     uint16_t tap; */
-/*     uint16_t hold; */
-/*     uint16_t held; */
-/* } tap_dance_tap_hold_t; */
-
-/* void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) { */
-/*     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data; */
-
-/*     if (state->pressed) { */
-/*         if (state->count == 1 */
-/* #ifndef PERMISSIVE_HOLD */
-/*             && !state->interrupted */
-/* #endif */
-/*         ) { */
-/*             register_code16(tap_hold->hold); */
-/*             tap_hold->held = tap_hold->hold; */
-/*         } else { */
-/*             register_code16(tap_hold->tap); */
-/*             tap_hold->held = tap_hold->tap; */
-/*         } */
-/*     } */
-/* } */
-
-/* void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) { */
-/*     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data; */
-
-/*     if (tap_hold->held) { */
-/*         unregister_code16(tap_hold->held); */
-/*         tap_hold->held = 0; */
-/*     } */
-/* } */
-
-/* #define ACTION_TAP_DANCE_TAP_HOLD(tap, hold) \ */
-/*     { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), } */
-
-/* tap_dance_action_t tap_dance_actions[] = { */
-/*     [TD_COMMA] = ACTION_TAP_DANCE_TAP_HOLD(KC_COMM, LGUI(KC_COMM)), */
-/* }; */
-
-/* bool process_record_user(uint16_t keycode, keyrecord_t *record) { */
-/*     tap_dance_action_t *action; */
-
-/*     switch (keycode) { */
-/*         case TD(TD_COMMA): */
-/*             action = &tap_dance_actions[TD_INDEX(keycode)]; */
-/*             if (!record->event.pressed && action->state.count && !action->state.finished) { */
-/*                 tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data; */
-/*                 tap_code16(tap_hold->tap); */
-/*             } */
-/*             return true; */
-/*     } */
-/*     return true; */
-/* } */
