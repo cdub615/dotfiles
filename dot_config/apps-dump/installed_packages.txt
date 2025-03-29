@@ -1,12 +1,13 @@
 Pacman Packages:
 7zip 24.09-3
+age 1.2.1-1
 base 3-2
 base-devel 1-2
 bat 0.25.0-4
 btrfs-progs 6.13-1
 catppuccin-cursors-mocha 2.0.0-1
 catppuccin-gtk-theme-mocha 1.0.3-1
-chezmoi 2.60.1-1
+chezmoi 2.61.0-1
 clipse 1.1.0-1
 copyq 9.1.0-1
 dunst 1.12.2-1
@@ -14,36 +15,41 @@ efibootmgr 18-3
 eza 0.20.24-1
 fuse2 2.9.9-5
 fzf 0.60.3-1
-ghostty 1.1.2-2
+ghostty 1.1.3-1
 git 2.49.0-1
+gnome-keyring 1:48.0-1
 grim 1.4.1-3
 htop 3.4.0-1
 hypridle 0.1.5-4
-hyprland 0.47.2-4
+hyprland 0.48.1-1
 hyprlock 0.7.0-1
 hyprpaper 0.7.4-4
-hyprpicker 0.4.2-3
+hyprpicker 0.4.3-1
 hyprshot 1.3.0-2
 hyprsysteminfo 0.1.3-2
-intel-media-driver 25.1.3-1
+intel-media-driver 25.1.4-1
 intel-ucode 20250211-1
-iwd 3.4-1
-kitty 0.40.0-1
+iwd 3.5-1
+kitty 0.40.1-1
 kvantum 1.1.4-1
 kvantum-theme-catppuccin-git r15.a87694e-1
+lazygit 0.48.0-1
+leapp-bin 0.26.1-1
 libva-intel-driver 2.4.1-3
-linux 6.13.7.arch1-1
+linux 6.13.8.arch1-1
 linux-firmware 20250311.b69d4b74-3
-linux-headers 6.13.7.arch1-1
+linux-headers 6.13.8.arch1-1
 ly 1.0.3-1
+mpv-git 0.39.0_1035_gb31c3d80ab-1
 nano 8.3-1
 nemo 6.4.5-1
-neovim 0.10.4-2
+neovim 0.11.0-2
 network-manager-applet 1.36.0-1
 networkmanager 1.52.0-1
-nextcloud-client 2:3.15.3-1
+nextcloud-client 2:3.16.2-1
 ninja 1.12.1-2
 nwg-look 1.0.4-1
+obs-studio 31.0.1-2
 oh-my-zsh-git r7435.ccbe504f2-1
 papirus-icon-theme 20250201-1
 polkit-kde-agent 6.3.3-1
@@ -51,7 +57,7 @@ powerline-fonts 2.8.4-3
 qt5-graphicaleffects 5.15.16-3
 qt5-quickcontrols2 5.15.16+kde+r5-3
 qt5-wayland 5.15.16+kde+r60-1
-qt6-wayland 6.8.2-1
+qt6-wayland 6.8.3-1
 rustdesk 1.3.7-0
 sddm 0.21.0-6
 slurp 1.5.0-1
@@ -62,12 +68,13 @@ ttf-firacode-nerd 3.3.0-1
 ttf-nerd-fonts-symbols-mono 3.3.0-1
 ueberzugpp 2.9.6-8
 unzip 6.0-22
-vim 9.1.1198-1
-vulkan-intel 1:25.0.1-2
+v4l2loopback-dkms 0.14.0-1
+vim 9.1.1236-1
+vulkan-intel 1:25.0.2-2
 waveterm 0.11.1-1
 waybar 0.12.0-1
 wezterm 20240203.110809.5046fc22-2
-wget 1.25.0-1
+wget 1.25.0-2
 wireless_tools 30.pre9-4
 wl-clipboard 1:2.2.1-2
 wlogout 1.2.2-0
@@ -83,6 +90,7 @@ yarn 1.22.22-2
 yay 12.4.2-1
 yay-debug 12.4.2-1
 yazi 25.3.2-1
+yt-dlp 2025.03.27-1
 zen-browser-bin 1.0.1.a.19-1
 zoxide 0.9.7-1
 zram-generator 1.2.1-1
@@ -91,6 +99,7 @@ zsh-autosuggestions 0.7.1-1
 zsh-syntax-highlighting 0.8.0-1
 
 AUR Packages:
+aws-session-manager-plugin 1.2.707.0-1
 catppuccin-cursors-mocha 2.0.0-1
 catppuccin-gtk-theme-mocha 1.0.3-1
 clipse 1.1.0-1
@@ -100,6 +109,10 @@ hyprshot 1.3.0-2
 hyprsysteminfo 0.1.3-2
 hyprsysteminfo-debug 0.1.3-2
 kvantum-theme-catppuccin-git r15.a87694e-1
+leapp-bin 0.26.1-1
+leapp-bin-debug 0.26.1-1
+mpv-git 0.39.0_1035_gb31c3d80ab-1
+mpv-git-debug 0.39.0_1035_gb31c3d80ab-1
 oh-my-zsh-git r7435.ccbe504f2-1
 rustdesk 1.3.7-0
 snapd 2.68-1
@@ -111,15 +124,19 @@ yay-debug 12.4.2-1
 zen-browser-bin 1.0.1.a.19-1
 
 Snap Packages:
-Name               Version             Rev    Tracking       Publisher    Notes
-bare               1.0                 5      latest/stable  canonical**  base
-bw                 2025.2.0            80     latest/stable  bitwarden**  -
-core               16-2.61.4-20240607  17200  latest/stable  canonical**  core
-core22             20250110            1748   latest/stable  canonical**  base
-gnome-42-2204      0+git.38ea591       202    latest/stable  canonical**  -
-gtk-common-themes  0.1-81-g442e511     1535   latest/stable  canonical**  -
-hello-world        6.4                 29     latest/stable  canonical**  -
-libreoffice        24.8.5.2            340    latest/stable  canonical**  -
-snapd              2.67.1              23771  latest/stable  canonical**  snapd
+Name               Version                     Rev    Tracking       Publisher    Notes
+bare               1.0                         5      latest/stable  canonical**  base
+bw                 2025.2.0                    80     latest/stable  bitwarden**  -
+core               16-2.61.4-20240607          17200  latest/stable  canonical**  core
+core18             20250123                    2855   latest/stable  canonical**  base
+core20             20241206                    2496   latest/stable  canonical**  base
+core22             20250110                    1748   latest/stable  canonical**  base
+gnome-3-28-1804    3.28.0-19-g98f9e67.98f9e67  198    latest/stable  canonical**  -
+gnome-42-2204      0+git.38ea591               202    latest/stable  canonical**  -
+gtk-common-themes  0.1-81-g442e511             1535   latest/stable  canonical**  -
+hello-world        6.4                         29     latest/stable  canonical**  -
+libreoffice        24.8.5.2                    340    latest/stable  canonical**  -
+raindrop           5.6.76                      28     latest/stable  exentrich    -
+snapd              2.67.1                      23771  latest/stable  canonical**  snapd
 
 Flatpak Packages:

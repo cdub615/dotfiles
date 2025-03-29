@@ -1,4 +1,17 @@
 return {
+  {
+    "folke/snacks.nvim",
+    opts = {
+      picker = {
+        sources = {
+          explorer = {
+            -- hidden = true,
+            no_ignore = true,
+          },
+        },
+      },
+    },
+  },
 
   {
     "catppuccin/nvim",
@@ -42,8 +55,8 @@ return {
         typescriptreact = { "prettier" },
         vue = { "prettier" },
         svelte = { "prettier" },
-      }
-    }
+      },
+    },
   },
 
   { "theprimeagen/harpoon" },
@@ -213,10 +226,10 @@ return {
 
   {
     "amitds1997/remote-nvim.nvim",
-    version = "*",                     -- Pin to GitHub release
+    version = "*", -- Pin to GitHub release
     dependencies = {
-      "nvim-lua/plenary.nvim",         -- for standard functions
-      "MunifTanjim/nui.nvim",          -- to build the plugin UI
+      "nvim-lua/plenary.nvim", -- for standard functions
+      "MunifTanjim/nui.nvim", -- to build the plugin UI
       "nvim-telescope/telescope.nvim", -- for picking between different remote methods
     },
     config = true,
@@ -275,5 +288,4 @@ return {
   --     },
   --   },
   -- },
-
 }
