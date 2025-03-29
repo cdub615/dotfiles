@@ -113,6 +113,7 @@ setopt hist_verify
 # For a full list of active aliases, run `alias`.
 #
 alias zshconfig="nvim ~/.zshrc"
+alias zshreload="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias qmk="arch -arm64 qmk"
 alias wt="tmuxifier load-session wt"
@@ -138,8 +139,9 @@ alias mac-mini="ssh root@192.168.1.4"
 
 export EDITOR="nvim"
 
-# export PATH="$HOME/.tmuxifier/bin:$PATH"
+export PATH="$HOME/.tmuxifier/bin:$PATH"
 export PATH="/var/lib/snapd/snap/bin:$PATH"
+export QT_QPA_PLATFORM=wayland
 
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -167,7 +169,7 @@ yt() {
     fabric -y "$video_link" --transcript
 }
 
-# eval "$(tmuxifier init -)"
+eval "$(tmuxifier init -)"
 eval "$(zoxide init zsh)"
 # eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -186,3 +188,11 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git command-not-found docker npm zsh-autosuggestions zsh-syntax-highlighting)
+
+# pnpm
+export PNPM_HOME="/home/cdub/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
