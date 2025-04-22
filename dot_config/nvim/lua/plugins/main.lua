@@ -1,17 +1,4 @@
 return {
-  {
-    "folke/snacks.nvim",
-    opts = {
-      picker = {
-        sources = {
-          explorer = {
-            -- hidden = true,
-            no_ignore = true,
-          },
-        },
-      },
-    },
-  },
 
   {
     "catppuccin/nvim",
@@ -55,11 +42,11 @@ return {
         typescriptreact = { "prettier" },
         vue = { "prettier" },
         svelte = { "prettier" },
-      },
-    },
+      }
+    }
   },
 
-  { "theprimeagen/harpoon" },
+  -- { "theprimeagen/harpoon" },
 
   {
     "mg979/vim-visual-multi",
@@ -70,8 +57,8 @@ return {
       vim.g.VM_maps = {
         ["Find Under"] = "<M-C-n>",
         ["Select All"] = "<M-C-l>",
-        ["Add Cursor Down"] = "<M-C-j>",
-        ["Add Cursor Up"] = "<M-C-k>",
+        ["Add Cursor Down"] = "<M-C-n>",
+        ["Add Cursor Up"] = "<M-C-e>",
       }
     end,
   },
@@ -226,10 +213,10 @@ return {
 
   {
     "amitds1997/remote-nvim.nvim",
-    version = "*", -- Pin to GitHub release
+    version = "*",                     -- Pin to GitHub release
     dependencies = {
-      "nvim-lua/plenary.nvim", -- for standard functions
-      "MunifTanjim/nui.nvim", -- to build the plugin UI
+      "nvim-lua/plenary.nvim",         -- for standard functions
+      "MunifTanjim/nui.nvim",          -- to build the plugin UI
       "nvim-telescope/telescope.nvim", -- for picking between different remote methods
     },
     config = true,
@@ -288,4 +275,5 @@ return {
   --     },
   --   },
   -- },
+
 }
