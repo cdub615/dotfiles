@@ -46,7 +46,7 @@ return {
     }
   },
 
-  { "theprimeagen/harpoon" },
+  -- { "theprimeagen/harpoon" },
 
   {
     "mg979/vim-visual-multi",
@@ -57,8 +57,8 @@ return {
       vim.g.VM_maps = {
         ["Find Under"] = "<M-C-n>",
         ["Select All"] = "<M-C-l>",
-        ["Add Cursor Down"] = "<M-C-j>",
-        ["Add Cursor Up"] = "<M-C-k>",
+        ["Add Cursor Down"] = "<M-C-n>",
+        ["Add Cursor Up"] = "<M-C-e>",
       }
     end,
   },

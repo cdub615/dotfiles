@@ -5,17 +5,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/opt/homebrew/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/cdub/.oh-my-zsh"
+export ZSH="/home/cdub/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="vercel-cdub"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,16 +72,10 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git command-not-found docker npm zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="/opt/homebrew/opt/fzf/bin:$PATH"
+# export PATH="/opt/homebrew/opt/fzf/bin:$PATH"
 source <(fzf --zsh)
 
 # User configuration
@@ -117,54 +113,35 @@ setopt hist_verify
 # For a full list of active aliases, run `alias`.
 #
 alias zshconfig="nvim ~/.zshrc"
+alias zshreload="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias brew="arch -arm64 brew"
-alias brew-intel="arch -x86_64 brew"
 alias qmk="arch -arm64 qmk"
-alias install_xcode_tools="xcode-select --install"
-alias crc="/Users/cdub/.local/share/crc-macos-1.21.0-amd64/crc"
-alias psgdb-clear-keys="rm -rf ~/.ssh/pinnsg-ue1-dev-infrastructure-ssh-key && echo 'TODO remove 23.23.141.176 entries from ~/.ssh/known_hosts file'"
-alias psgdb-download-keys="AWS_PROFILE=pinnacle-dev aws s3 cp s3://dev-pinnsg-int-artifacts/pinnsg-ue1-dev-infrastructure-ssh-key ~/.ssh"
-alias psgdb-set-key-permission="chmod 600 ~/.ssh/pinnsg-ue1-dev-infrastructure-ssh-key"
-alias psgdb="ssh -i ~/.ssh/pinnsg-ue1-dev-infrastructure-ssh-key -N -L 1433:pinnsg-ue1-dev-infrastructure.cbwiba3nqygy.us-east-1.rds.amazonaws.com:1433 ec2-user@23.23.141.176 -v"
 alias wt="tmuxifier load-session wt"
 alias tnb="tmuxifier load-session tnb"
 alias rvu="tmuxifier load-session rvu"
 alias stk="tmuxifier load-session stk"
 alias 3w6="tmux attach -t 3w6"
 alias dt="tmux detach"
-alias aeroconfig="nvim ~/.aerospace.toml"
-alias sketchyconfig="nvim ~/.config/sketchybar/sketchybarrc"
 alias yaziconfig="nvim ~/.config/yazi/yazi.toml"
 alias awsconfig="nvim ~/.aws/credentials"
 alias ls="eza --icons=always"
 alias cd="z"
 alias cat="bat"
 alias p3000="lsof -n -i :3000"
+alias pac="sudo pacman -S"
+alias hyprconfig="nvim ~/.config/hypr/hyprland.conf"
+alias hyprpprconfig="nvim ~/.config/hypr/hyprpaper.conf"
+alias thinkstation="ssh root@192.168.1.2"
+alias dell-wyse="ssh root@192.168.1.3"
+alias mac-mini="ssh root@192.168.1.4"
 
+[ -f ~/.zshrc.env ] && source ~/.zshrc.env
 
 export EDITOR="nvim"
 
 export PATH="$HOME/.tmuxifier/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="$PATH:/Users/cdub/.dotnet/tools"
-
-# Golang environment variables
-export GOROOT=$(brew --prefix go)/libexec
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
-
-# pnpm
-export PNPM_HOME="/Users/cdub/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-source $(brew --prefix nvm)/nvm.sh
+export PATH="/var/lib/snapd/snap/bin:$PATH"
+export QT_QPA_PLATFORM=wayland
 
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -196,9 +173,26 @@ eval "$(tmuxifier init -)"
 eval "$(zoxide init zsh)"
 # eval "$(/opt/homebrew/bin/brew shellenv)"
 
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git command-not-found docker npm zsh-autosuggestions zsh-syntax-highlighting)
+
+# pnpm
+export PNPM_HOME="/home/cdub/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
