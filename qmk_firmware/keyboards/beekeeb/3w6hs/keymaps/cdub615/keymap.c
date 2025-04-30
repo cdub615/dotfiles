@@ -89,13 +89,13 @@ tap_dance_action_t tap_dance_actions[] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3(
-        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_F),    KC_P,    KC_B,                     KC_J,    KC_L,    KC_U,     KC_Y,    TD(TD_QUOT_DBLQUOT),
+        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_F),    KC_P,    KC_B,                     KC_J,    KC_L,    KC_U,     KC_Y,    KC_QUOTE,
         KC_A,  KC_R,  KC_S,  KC_T,  LT(_CFG, KC_G),                                 KC_M,    KC_N,    KC_E,     KC_I,    KC_O,
         LGUI_T(KC_Z),  LALT_T(KC_X),  LCTL_T(KC_C),  LSFT_T(KC_D),  KC_V,           KC_K,    RSFT_T(KC_H),    RCTL_T(KC_COMMA),     RALT_T(KC_DOT),    RGUI_T(KC_SLASH),
                                     LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
     ),
     [_ALPHA_QWERTY] = LAYOUT_split_3x5_3(
-        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_E),    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,     KC_O,    TD(TD_QUOT_DBLQUOT),
+        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_E),    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,     KC_O,    KC_QUOTE,
         KC_A,  KC_S,  KC_D,  KC_F,  LT(_CFG, KC_G),                                 KC_H,    KC_J,     KC_K,     KC_L,    KC_P,
         LGUI_T(KC_Z),  LALT_T(KC_X),  LCTL_T(KC_C),  LSFT_T(KC_V),  KC_B,           KC_N,    RSFT_T(KC_M),    RCTL_T(KC_COMMA),     RALT_T(KC_DOT),    RGUI_T(KC_SLASH),
                                     LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
