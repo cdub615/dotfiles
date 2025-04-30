@@ -20,8 +20,8 @@
 
 enum layers
 {
-    _ALPHA_QWERTY = 0,
-    _ALPHA_COLEMAK_DH,
+    _ALPHA_COLEMAK_DH = 0,
+    _ALPHA_QWERTY,
     _SYM,
     _NUM,
     _NAV,
@@ -29,9 +29,6 @@ enum layers
 };
 
 enum {
-    TD_COMMA_DASH,
-    TD_DOT_EXCLM,
-    TD_SLASH_USCR,
     TD_QUOT_DBLQUOT,
 };
 
@@ -45,27 +42,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     tap_dance_action_t *action;
 
     switch (keycode) {
-        case TD(TD_COMMA_DASH):  // list all tap dance keycodes with tap-hold configurations
-            action = &tap_dance_actions[TD_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return true;
-        case TD(TD_DOT_EXCLM):
-            action = &tap_dance_actions[TD_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return true;
-        case TD(TD_SLASH_USCR):
-            action = &tap_dance_actions[TD_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return true;
         case TD(TD_QUOT_DBLQUOT):
             action = &tap_dance_actions[TD_INDEX(keycode)];
             if (!record->event.pressed && action->state.count && !action->state.finished) {
@@ -108,24 +84,20 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
     { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_COMMA_DASH] = ACTION_TAP_DANCE_TAP_HOLD(KC_COMMA, KC_MINUS),
-    [TD_DOT_EXCLM] = ACTION_TAP_DANCE_TAP_HOLD(KC_DOT, RSFT(KC_1)),
-    [TD_SLASH_USCR] = ACTION_TAP_DANCE_TAP_HOLD(KC_SLASH, RSFT(KC_MINUS)),
     [TD_QUOT_DBLQUOT] = ACTION_TAP_DANCE_TAP_HOLD(KC_QUOTE, RSFT(KC_QUOTE)),
 };
 
-/* consider caps word */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_ALPHA_QWERTY] = LAYOUT_split_3x5_3(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                KC_Y,    KC_U,    KC_I,     KC_O,    TD(TD_QUOT_DBLQUOT),
-        LGUI_T(KC_A),  LALT_T(KC_S),  LCTL_T(KC_D),  LSFT_T(KC_F),  LT(_CFG, KC_G),         KC_H,    RSFT_T(KC_J),    RCTL_T(KC_K),     RALT_T(KC_L),    RGUI_T(KC_P),
-        C_S_T(KC_Z),    LSA_T(KC_X),    KC_C,    KC_V,    KC_B,                                                KC_N,    KC_M,    TD(TD_COMMA_DASH), TD(TD_DOT_EXCLM),  TD(TD_SLASH_USCR),
+    [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3(
+        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_F),    KC_P,    KC_B,                     KC_J,    KC_L,    KC_U,     KC_Y,    TD(TD_QUOT_DBLQUOT),
+        KC_A,  KC_R,  KC_S,  KC_T,  LT(_CFG, KC_G),                                 KC_M,    KC_N,    KC_E,     KC_I,    KC_O,
+        LGUI_T(KC_Z),  LALT_T(KC_X),  LCTL_T(KC_C),  LSFT_T(KC_D),  KC_V,           KC_K,    RSFT_T(KC_H),    RCTL_T(KC_COMMA),     RALT_T(KC_DOT),    RGUI_T(KC_SLASH),
                                     LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
     ),
-    [_ALPHA_COLEMAK_DH] = LAYOUT_split_3x5_3(
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                KC_J,    KC_L,    KC_U,     KC_Y,    TD(TD_QUOT_DBLQUOT),
-        LGUI_T(KC_A),  LALT_T(KC_R),  LCTL_T(KC_S),  LSFT_T(KC_T),  LT(_CFG, KC_G),         KC_M,    RSFT_T(KC_N),    RCTL_T(KC_E),     RALT_T(KC_I),    RGUI_T(KC_O),
-        C_S_T(KC_Z),    LSA_T(KC_X),    KC_C,    KC_D,    KC_V,                                                KC_K,    KC_H,    TD(TD_COMMA_DASH), TD(TD_DOT_EXCLM),  TD(TD_SLASH_USCR),
+    [_ALPHA_QWERTY] = LAYOUT_split_3x5_3(
+        C_S_T(KC_Q),    LSA_T(KC_W),    LSG_T(KC_E),    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,     KC_O,    TD(TD_QUOT_DBLQUOT),
+        KC_A,  KC_S,  KC_D,  KC_F,  LT(_CFG, KC_G),                                 KC_H,    KC_J,     KC_K,     KC_L,    KC_P,
+        LGUI_T(KC_Z),  LALT_T(KC_X),  LCTL_T(KC_C),  LSFT_T(KC_V),  KC_B,           KC_N,    RSFT_T(KC_M),    RCTL_T(KC_COMMA),     RALT_T(KC_DOT),    RGUI_T(KC_SLASH),
                                     LT(_NAV, KC_ESC), LT(_SYM, KC_TAB), KC_ENT,     KC_BSPC, LT(_NUM, KC_SPC), LT(_NAV, KC_DEL)
     ),
     [_SYM] = LAYOUT_split_3x5_3(
@@ -148,8 +120,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_CFG] = LAYOUT_split_3x5_3(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX, KC_F9, KC_F10, KC_F11, KC_F12,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            DF(_ALPHA_QWERTY), KC_F5, KC_F6, KC_F7, KC_F8,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            DF(_ALPHA_COLEMAK_DH), KC_F1, KC_F2, KC_F3, KC_F4,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            DF(_ALPHA_COLEMAK_DH), KC_F5, KC_F6, KC_F7, KC_F8,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            DF(_ALPHA_QWERTY), KC_F1, KC_F2, KC_F3, KC_F4,
                                     QK_BOOT, QK_REBOOT, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
     ),
 };
