@@ -27,8 +27,8 @@ gnome-keyring 1:48.0-1
 grim 1.5.0-1
 htop 3.4.1-1
 hypridle 0.1.6-6
-hyprland 0.49.0-3
-hyprlock 0.8.2-3
+hyprland 0.50.0-1
+hyprlock 0.9.0-1
 hyprnotify 0.8.0-1
 hyprpaper 0.7.5-3
 hyprpicker 0.4.5-4
@@ -39,7 +39,7 @@ intel-media-driver 25.2.5-1
 intel-ucode 20250512-1
 iptables-nft 1:1.8.11-2
 iwd 3.9-1
-kitty 0.42.1-1
+kitty 0.42.2-1
 kvantum 1.1.5-1
 kvantum-theme-catppuccin-git r15.a87694e-1
 lazygit 0.53.0-1
@@ -89,9 +89,9 @@ unzip 6.0-22
 v4l2loopback-dkms 0.15.0-1
 vim 9.1.1552-1
 virt-manager 5.0.0-1
-vivaldi 7.5.3735.47-1
+vivaldi 7.5.3735.54-1
 vivaldi-ffmpeg-codecs 138.0.7204.55-2
-vulkan-intel 1:25.1.5-1
+vulkan-intel 1:25.1.6-1
 waveterm 0.11.1-1
 waybar 0.13.0-3
 wezterm 20240203.110809.5046fc22-2
@@ -152,19 +152,22 @@ yay-debug 12.4.2-1
 zen-browser-bin 1.0.1.a.19-1
 
 Snap Packages:
-Name               Version                     Rev    Tracking       Publisher    Notes
-bare               1.0                         5      latest/stable  canonical**  base
-bw                 2025.6.1                    85     latest/stable  bitwarden**  -
-core               16-2.61.4-20250508          17212  latest/stable  canonical**  core
-core18             20250523                    2887   latest/stable  canonical**  base
-core20             20250526                    2599   latest/stable  canonical**  base
-core22             20250528                    2010   latest/stable  canonical**  base
-gnome-3-28-1804    3.28.0-19-g98f9e67.98f9e67  198    latest/stable  canonical**  -
-gnome-42-2204      0+git.38ea591               202    latest/stable  canonical**  -
-gtk-common-themes  0.1-81-g442e511             1535   latest/stable  canonical**  -
-hello-world        6.4                         29     latest/stable  canonical**  -
-libreoffice        24.8.7.2                    344    latest/stable  canonical**  -
-raindrop           5.6.76                      28     latest/stable  exentrich    -
-snapd              2.70                        24792  latest/stable  canonical**  snapd
+Name               Version                         Rev    Tracking       Publisher    Notes
+bare               1.0                             5      latest/stable  canonical**  base
+bw                 2025.6.1                        85     latest/stable  bitwarden**  -
+core               16-2.61.4-20250508              17212  latest/stable  canonical**  core
+core18             20250523                        2887   latest/stable  canonical**  base
+core20             20250526                        2599   latest/stable  canonical**  base
+core22             20250612                        2045   latest/stable  canonical**  base
+core24             20250618                        1055   latest/stable  canonical**  base
+gnome-3-28-1804    3.28.0-19-g98f9e67.98f9e67      198    latest/stable  canonical**  -
+gnome-42-2204      0+git.38ea591                   202    latest/stable  canonical**  -
+gnome-46-2404      0+git.4ca00c0-sdk0+git.81ba3cf  117    latest/stable  canonical**  -
+gtk-common-themes  0.1-81-g442e511                 1535   latest/stable  canonical**  -
+hello-world        6.4                             29     latest/stable  canonical**  -
+libreoffice        25.2.5.2                        355    latest/stable  canonical**  -
+mesa-2404          24.2.8-snap183                  887    latest/stable  canonical**  -
+raindrop           5.6.76                          28     latest/stable  exentrich    -
+snapd              2.70                            24792  latest/stable  canonical**  snapd
 
 Flatpak Packages:
