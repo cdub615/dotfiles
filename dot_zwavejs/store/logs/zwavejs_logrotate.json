@@ -1,0 +1,50 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/home/cdub/.zwavejs/store/logs/zwavejs_logrotate.json",
+    "files": [
+        {
+            "date": 1752210000006,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-11.log",
+            "hash": "7760e88534dbcaa5c89880feb1e7a3365812c75dddea8cfab1792520bde86a42"
+        },
+        {
+            "date": 1752296400003,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-12.log",
+            "hash": "9ffcfbea30c7b2757d0b09bc175820c5680b035c8b0a1a171d8e0044c4faa64a"
+        },
+        {
+            "date": 1752382800006,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-13.log",
+            "hash": "a41d6e72c85059f2d0ca4b8f7d17a5fddfac1e140345abb052a023b59a6f5784"
+        },
+        {
+            "date": 1752469200004,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-14.log",
+            "hash": "3e7e3014eb3b3c35502d4d85dbaf38f2ec428ea4a2c28710638116ac77bc51c7"
+        },
+        {
+            "date": 1752555600003,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-15.log",
+            "hash": "c25c10f10a82c31bb9fd52c5da6214cbb276e2ff5236d617c2d5a55fc31906f5"
+        },
+        {
+            "date": 1752642000004,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-16.log",
+            "hash": "78a7763c9633759b03399ed386a4c941cf94050aa179ec6353201858f8f45fd8"
+        },
+        {
+            "date": 1752728400004,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-17.log",
+            "hash": "1630f4bb236bd5b944358e964be7cac56f77e23d1679571eab4f7b408dfbcfec"
+        },
+        {
+            "date": 1752814800002,
+            "name": "/home/cdub/.zwavejs/store/logs/zwavejs_2025-07-18.log",
+            "hash": "1363317b1d8e20b714380cd48a84014bae44dbd7c8bc8c742c173eefbb148f51"
+        }
+    ],
+    "hashType": "sha256"
+}
