@@ -11,6 +11,7 @@ cat <<EOF >$HOME/.local/share/omarchy/logo.txt
   ███    █▀     ▀█████▀   ▄████▀        ███    ███   ███    █▀    ███    ███ ████████▀    ███    █▀   
                                         ███    ███                ███    ███                          
 EOF
+echo "Add the logo.txt command to omarchy-update"
 
 echo "Installing our packages..."
 yay -S --noconfirm --needed ghostty age tmux yazi yt-dlp zsh openssh zsh-theme-powerlevel10k-git vivaldi bitwarden bitwarden-cli
@@ -51,6 +52,7 @@ echo "Downloading our logo..."
 mkdir -p ~/.local/share/logo
 wget -O ~/.local/share/logo/logo.png https://github.com/cdub615/dotfiles/raw/main/logo.png
 cp ~/.local/share/logo/logo.png ~/.local/share/omarchy/default/plymouth/logo.png
+echo "Add this to omarchy-update"
 
 echo "Changing default terminal to ghostty..."
 find ~/.local/share/applications -type f -name "*.desktop" -exec sed -i 's/alacritty/ghostty/g' {} +
@@ -72,11 +74,38 @@ echo "Applying our configs from dotfiles..."
 cp ~/.config/ghostty/config ~/.config/ghostty/config-copy
 wget -O ~/.config/ghostty/config https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/ghostty/config
 
+cp ~/.config/hypr/autostart.conf ~/.config/hypr/autostart.conf-copy
+wget -O ~/.config/hypr/autostart.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/autostart.conf
+
+cp ~/.config/hypr/bindings.conf ~/.config/hypr/bindings.conf-copy
+wget -O ~/.config/hypr/bindings.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/bindings.conf
+
+cp ~/.config/hypr/envs.conf ~/.config/hypr/envs.conf-copy
+wget -O ~/.config/hypr/envs.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/envs.conf
+
+cp ~/.config/hypr/hypridle.conf ~/.config/hypr/hypridle.conf-copy
+wget -O ~/.config/hypr/hypridle.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/hypridle.conf
+
 cp ~/.config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf-copy
 wget -O ~/.config/hypr/hyprland.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/hyprland.conf
 
 cp ~/.config/hypr/hyprlock.conf ~/.config/hypr/hyprlock.conf-copy
 wget -O ~/.config/hypr/hyprlock.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/hyprlock.conf
+
+cp ~/.config/hypr/hyprsunset.conf ~/.config/hypr/hyprsunset.conf-copy
+wget -O ~/.config/hypr/hyprsunset.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/hyprsunset.conf
+
+cp ~/.config/hypr/input.conf ~/.config/hypr/input.conf-copy
+wget -O ~/.config/hypr/input.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/input.conf
+
+cp ~/.config/hypr/looknfeel.conf ~/.config/hypr/looknfeel.conf-copy
+wget -O ~/.config/hypr/looknfeel.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/looknfeel.conf
+
+cp ~/.config/hypr/monitors.conf ~/.config/hypr/monitors.conf-copy
+wget -O ~/.config/hypr/monitors.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/monitors.conf
+
+cp ~/.config/hypr/tiling.conf ~/.config/hypr/tiling.conf-copy
+wget -O ~/.config/hypr/tiling.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_config/hypr/tiling.conf
 
 cp ~/.p10k.zsh ~/.p10k.zsh-copy
 wget -O ~/.p10k.zsh https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_p10k.zsh
@@ -89,6 +118,7 @@ wget -O ~/.zshrc https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/m
 
 echo "Rounding Walker's corners..."
 find ~/.local/share/omarchy/default/walker/themes -type f -name "omarchy-default.css" -exec sed -i 's/border-radius: 0px/border-radius: 15px/g' {} +
+echo "Add this to omarchy-update"
 
 echo "Enabling ssh..."
 sudo systemctl enable sshd
