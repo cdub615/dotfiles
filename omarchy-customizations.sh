@@ -120,6 +120,14 @@ echo "Rounding Walker's corners..."
 find ~/.local/share/omarchy/default/walker/themes -type f -name "omarchy-default.css" -exec sed -i 's/border-radius: 0px/border-radius: 15px/g' {} +
 echo "Add this to omarchy-update"
 
+cat <<EOF >$ROOT/bin/screensaver-wrapper.sh
+#!/bin/bash
+
+$HOME/.local/share/omarchy/bin/omarchy-launch-screensaver
+EOF
+
+sudo chmod +x $ROOT/bin/screensaver-wrapper.sh
+
 echo "Enabling ssh..."
 sudo systemctl enable sshd
 
