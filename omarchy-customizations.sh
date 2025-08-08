@@ -116,6 +116,9 @@ wget -O ~/.tmux.conf https://raw.githubusercontent.com/cdub615/dotfiles/refs/hea
 cp ~/.zshrc ~/.zshrc-copy
 wget -O ~/.zshrc https://raw.githubusercontent.com/cdub615/dotfiles/refs/heads/main/dot_zshrc
 
+echo "Installing tmux plugins..."
+~/.tmux/plugins/tpm/bin/install_plugins
+
 echo "Rounding Walker's corners..."
 find ~/.local/share/omarchy/default/walker/themes -type f -name "omarchy-default.css" -exec sed -i 's/border-radius: 0px/border-radius: 15px/g' {} +
 echo "Add this to omarchy-update"
