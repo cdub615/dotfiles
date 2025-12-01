@@ -44,7 +44,7 @@
 
 # font-family = FiraCode Nerd Font Mono
 font-family = Fira Code iScript
-theme = catppuccin-mocha
+theme = catppuccin-mocha.conf
 font-size = 14
 background-opacity = 0.75
 background-blur-radius = 30

@@ -22,6 +22,6 @@ _darcs
 ^/LICENSE.*
 ^/COPYING
 
-omarchy-customizations.sh
+omarchy-customizations/*
 logo.png
 vivaldi.desktop
