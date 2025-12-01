@@ -1,1 +1,0 @@
-/home/cdub/.config/omarchy/current/theme/neovim.lua
