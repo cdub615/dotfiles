@@ -16,3 +16,4 @@ EOF
 
 echo "Changing Plymouth default logo image..."
 cp ../logo.png ~/.local/share/omarchy/default/plymouth/logo.png
+cp ../logo.png ~/.local/share/omarchy/logo.png
