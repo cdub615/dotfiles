@@ -175,3 +175,6 @@ esac
 export PATH="$HOME/.local/bin:$HOME/.local/share/omarchy/bin:$PATH"
 set +h
 
+
+# opencode
+export PATH=/home/cdub/.opencode/bin:$PATH
