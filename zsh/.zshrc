@@ -126,6 +126,9 @@ alias hyprconfig="nvim ~/.config/hypr/hyprland.conf"
 alias ssh-generate-key="ssh-keygen -t ed25519 -C \"christianbwhite@gmail.com\""
 alias ssh-start-agent="eval \"$(ssh-agent -s)\""
 alias ssh-add-key-to-agent="ssh-add ~/.ssh/id_ed25519"
+alias vllm-activate="source ~/.venvs/vllm/bin/activate"
+alias llama-server="~/llama.cpp/build/bin/llama-server"
+alias run-devstral="llama-server -m ~/models/devstral/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf --host 0.0.0.0 --port 8000 -c 4096 -ngl 0"
 
 [ -f ~/.zshrc.env ] && source ~/.zshrc.env
 
