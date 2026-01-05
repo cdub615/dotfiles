@@ -129,6 +129,7 @@ alias ssh-add-key-to-agent="ssh-add ~/.ssh/id_ed25519"
 alias vllm-activate="source ~/.venvs/vllm/bin/activate"
 alias llama-server="~/llama.cpp/build/bin/llama-server"
 alias run-devstral="llama-server -m ~/models/devstral/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf --host 0.0.0.0 --port 8000 -c 4096 -ngl 0"
+alias dotnet-install="/usr/share/dotnet/dotnet-install.sh"
 
 [ -f ~/.zshrc.env ] && source ~/.zshrc.env
 
@@ -178,6 +179,8 @@ esac
 export PATH="$HOME/.local/bin:$HOME/.local/share/omarchy/bin:$PATH"
 set +h
 
+# dotnet
+export PATH=~/.dotnet:$PATH
 
 # opencode
 export PATH=/home/cdub/.opencode/bin:$PATH
