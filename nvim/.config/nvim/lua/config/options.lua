@@ -11,3 +11,11 @@ vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold", "BufEnter" }, {
     vim.cmd("checktime") -- Checks timestamp and reloads if changed
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.b.autoformat = false
+    vim.b.formatting_disabled = true
+  end,
+})

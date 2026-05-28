@@ -1,0 +1,1 @@
+/home/cdub/.local/share/opencode-cursor/dist/plugin-entry.js

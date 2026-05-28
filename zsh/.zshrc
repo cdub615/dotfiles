@@ -130,12 +130,34 @@ alias vllm-activate="source ~/.venvs/vllm/bin/activate"
 alias llama-server="~/llama.cpp/build/bin/llama-server"
 alias run-devstral="llama-server -m ~/models/devstral/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf --host 0.0.0.0 --port 8000 -c 4096 -ngl 0"
 alias dotnet-install="/usr/share/dotnet/dotnet-install.sh"
+alias ai-rig="ssh root@192.168.1.2"
+alias dell-wyse="ssh root@192.168.1.3"
+alias elitedesk="ssh root@192.168.1.4"
 
 [ -f ~/.zshrc.env ] && source ~/.zshrc.env
 
 export EDITOR="nvim"
 
 export QT_QPA_PLATFORM=wayland
+
+dcvim() {
+  local dir="${1:-.}"
+  local session_name="${2:-$(basename "$(realpath "$dir")")}"
+
+  devcontainer up --workspace-folder "$dir"
+
+  if tmux has-session -t "$session_name" 2>/dev/null; then
+    tmux attach-session -t "$session_name"
+  else
+    tmux new-session -d -s "$session_name" -x 220 -y 50
+    tmux rename-window -t "$session_name:1" "nvim"
+    tmux send-keys -t "$session_name:1" "devcontainer exec --workspace-folder $dir nvim ." Enter
+    tmux new-window -t "$session_name"
+    tmux rename-window -t "$session_name:2" "terminal"
+    tmux send-keys -t "$session_name:2" "devcontainer exec --workspace-folder $dir bash" Enter
+    tmux attach-session -t "$session_name"
+  fi
+}
 
 zc () {
         local config="$HOME/.zai.json"
@@ -195,8 +217,6 @@ yt() {
     fabric -y "$video_link" --transcript
 }
 
-eval "$(zoxide init zsh)"
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -229,6 +249,12 @@ export PATH=~/.dotnet:$PATH
 # opencode
 export PATH=/home/cdub/.opencode/bin:$PATH
 
+# go
+export PATH=$PATH:/usr/local/go/bin
+
 # tmuxifier
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 eval "$(tmuxifier init -)"
+
+# zoxide — must come last so its chpwd hook isn't clobbered by tmuxifier/etc.
+eval "$(zoxide init zsh)"
