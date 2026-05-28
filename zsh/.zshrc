@@ -257,4 +257,9 @@ export PATH="$HOME/.tmuxifier/bin:$PATH"
 eval "$(tmuxifier init -)"
 
 # zoxide — must come last so its chpwd hook isn't clobbered by tmuxifier/etc.
+# Non-interactive shells (scripts, the Claude Code harness, tmux popups) reset
+# chpwd_functions after rc sourcing, so zoxide's hook goes missing and its
+# doctor false-positives on every `cd` (cd is aliased to z above). Suppress the
+# diagnostic there; keep it active in real interactive shells where it's useful.
+[[ -o interactive ]] || export _ZO_DOCTOR=0
 eval "$(zoxide init zsh)"
