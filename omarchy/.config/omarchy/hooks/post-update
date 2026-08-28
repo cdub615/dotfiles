@@ -1,0 +1,58 @@
+#!/bin/bash
+# Omarchy post-update hook.
+#
+# Omarchy periodically renames its own `omarchy-*` binaries (e.g.
+# omarchy-cmd-screenshot -> omarchy-capture-screenshot). Personal configs keep
+# referencing the old name, so the binding silently calls a command that no
+# longer exists and the key just appears to stop working.
+#
+# Checks every omarchy-* command referenced from the user config surfaces and
+# reports any that no longer resolve. Reports only -- never edits your config.
+#
+# Omarchy 4: Hyprland config is Lua (~/.config/hypr/*.lua); hyprsunset.conf and
+# xdph.conf remain .conf; the shell/bar lives in ~/.config/omarchy/.
+
+shopt -s nullglob
+
+targets=(
+    "$HOME"/.config/hypr/*.lua
+    "$HOME"/.config/hypr/*.conf
+    "$HOME"/.config/omarchy/*.json
+    "$HOME"/.config/omarchy/extensions/*.jsonc
+    "$HOME"/.config/omarchy/hooks/*
+)
+
+declare -A seen=()
+missing=()
+scanned=0
+
+for conf in "${targets[@]}"; do
+    [[ -f $conf ]] || continue
+    [[ $conf == *.sample ]] && continue
+    [[ $conf == "${BASH_SOURCE[0]}" ]] && continue
+    scanned=$((scanned + 1))
+    while read -r cmd; do
+        [[ -z $cmd || -n ${seen[$cmd]:-} ]] && continue
+        seen[$cmd]=1
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            missing+=("$cmd  <- $(basename "$conf")")
+        fi
+    done < <(grep -ohE '\bomarchy-[a-zA-Z0-9_-]+' "$conf" 2>/dev/null | sort -u)
+done
+
+if ((${#missing[@]})); then
+    body=$(printf '%s\n' "${missing[@]}")
+    echo ""
+    echo -e "\e[31mBroken omarchy commands referenced in your config:\e[0m"
+    printf '  %s\n' "${missing[@]}"
+    echo ""
+    echo "These were probably renamed by this update. Find the new name with:"
+    echo "  omarchy commands | grep -i <what-it-did>"
+    echo ""
+    notify-send -u critical "Omarchy config references broken" "Missing after update:
+$body" 2>/dev/null
+else
+    echo "post-update: ${#seen[@]} omarchy-* command(s) across $scanned config file(s) all resolve OK"
+fi
+
+exit 0
