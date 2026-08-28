@@ -113,7 +113,6 @@ setopt hist_verify
 alias zshconfig="nvim ~/.zshrc"
 alias zshreload="source ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias qmk="arch -arm64 qmk"
 alias dt="tmux detach"
 alias yaziconfig="nvim ~/.config/yazi/yazi.toml"
 alias awsconfig="nvim ~/.aws/credentials"
@@ -133,12 +132,15 @@ alias dotnet-install="/usr/share/dotnet/dotnet-install.sh"
 alias ai-rig="ssh root@192.168.1.2"
 alias dell-wyse="ssh root@192.168.1.3"
 alias elitedesk="ssh root@192.168.1.4"
+alias elitedesk2="ssh root@192.168.1.5"
 
 [ -f ~/.zshrc.env ] && source ~/.zshrc.env
 
 export EDITOR="nvim"
 
 export QT_QPA_PLATFORM=wayland
+
+anki() { QT_IM_MODULE= command anki "$@"; }
 
 dcvim() {
   local dir="${1:-.}"
@@ -255,6 +257,9 @@ export PATH=$PATH:/usr/local/go/bin
 # tmuxifier
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 eval "$(tmuxifier init -)"
+
+# libvirt
+export LIBVIRT_DEFAULT_URI=qemu:///system
 
 # zoxide — must come last so its chpwd hook isn't clobbered by tmuxifier/etc.
 # Non-interactive shells (scripts, the Claude Code harness, tmux popups) reset
