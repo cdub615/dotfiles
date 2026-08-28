@@ -1,0 +1,15 @@
+#!/bin/bash
+# Re-apply HYPRARCH branding after an Omarchy update.
+#
+# The logo targets live in /usr/share (pacman-owned), so every update restores
+# Omarchy's stock OMARCHY art. This puts ours back.
+
+SCRIPT="$HOME/dotfiles/omarchy-customizations/install-logo.sh"
+
+[[ -x $SCRIPT ]] || exit 0
+
+echo ""
+echo "Re-applying HYPRARCH branding..."
+"$SCRIPT" || echo "branding: failed to apply (run $SCRIPT by hand)"
+
+exit 0
