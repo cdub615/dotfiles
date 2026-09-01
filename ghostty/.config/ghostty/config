@@ -53,3 +53,19 @@ window-padding-y = 12
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll
+
+# Send Shift+Enter as CSI-u so TUIs can distinguish it from Enter.
+keybind = shift+enter=csi:13;2u
+
+# Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.
+keybind = alt+shift+enter=csi:13;4u
+
+# Ctrl+Alt+arrow is the Charybdis Media layer's tmux pane-select cluster.
+# Ghostty binds these four to goto_split. They are registered "performable", so
+# they fall through to tmux when no Ghostty split exists in that direction --
+# but once a Ghostty split is open they silently steal the keys and move between
+# Ghostty splits instead of tmux panes. Splitting is tmux's job here, so unbind.
+keybind = ctrl+alt+arrow_up=unbind
+keybind = ctrl+alt+arrow_down=unbind
+keybind = ctrl+alt+arrow_left=unbind
+keybind = ctrl+alt+arrow_right=unbind
