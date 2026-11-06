@@ -36,6 +36,25 @@ install_file() {
 
 echo "Applying HYPRARCH branding..."
 
+# Screensaver art (user-owned, no sudo). omarchy-screensaver renders
+# ~/.config/omarchy/branding/screensaver.txt; keep it a symlink to logo.txt so
+# the art lives in git. The v3->v4 upgrade (and `omarchy branding screensaver
+# reset|image`) overwrite it, so put the link back whenever it isn't ours.
+SCREENSAVER="$HOME/.config/omarchy/branding/screensaver.txt"
+if [[ -d $(dirname "$SCREENSAVER") ]]; then
+    if [[ -L $SCREENSAVER && $(readlink -f "$SCREENSAVER") == "$ASCII" ]]; then
+        printf '  ok       %s\n' "$SCREENSAVER"
+    else
+        [[ -e $SCREENSAVER && ! -L $SCREENSAVER ]] &&
+            mv "$SCREENSAVER" "$SCREENSAVER.replaced.$(date +%Y%m%d%H%M%S).bak"
+        ln -sfn "$ASCII" "$SCREENSAVER"
+        printf '  UPDATED  %s\n' "$SCREENSAVER"
+    fi
+    # A `cp` onto the link writes through it into logo.txt itself.
+    git -C "$HERE" diff --quiet -- logo.txt 2>/dev/null ||
+        echo "  WARNING  $ASCII differs from git (stock art copied over it?): git -C $HERE checkout -- logo.txt"
+fi
+
 # Terminal word art (omarchy-show-logo reads $OMARCHY_PATH/logo.txt)
 install_file "$ASCII" "$OMARCHY_PATH/logo.txt"
 
