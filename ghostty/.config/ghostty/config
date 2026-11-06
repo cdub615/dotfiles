@@ -69,3 +69,9 @@ keybind = ctrl+alt+arrow_up=unbind
 keybind = ctrl+alt+arrow_down=unbind
 keybind = ctrl+alt+arrow_left=unbind
 keybind = ctrl+alt+arrow_right=unbind
+
+# Omarchy 4's universal paste (SUPER+V) and its clipboard picker paste into
+# terminals by sending SHIFT+Insert. Ghostty's default maps that to the PRIMARY
+# selection (last highlighted text), so make it paste the clipboard instead.
+# Middle-click still pastes PRIMARY.
+keybind = shift+insert=paste_from_clipboard
