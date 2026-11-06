@@ -1,0 +1,27 @@
+#!/bin/bash
+# Image-aware universal paste for SUPER+V.
+#
+# Omarchy 4 sends SHIFT+Insert to terminals, which can only paste text; Claude
+# Code picks up clipboard images only on CTRL+V. So in a terminal, send CTRL+V
+# when the clipboard offers an image.
+#
+# This must run as a separate process (exec bind), never from Lua inside
+# Hyprland: wl-paste needs the compositor to answer, so calling it
+# synchronously from a Lua bind deadlocks Hyprland.
+#
+# Keys go out via send_key_state with explicit mods, as in Omarchy's
+# default/hypr/bindings/clipboard.lua (wtype would merge with the held SUPER).
+
+send() {
+  hyprctl eval "hl.dispatch(hl.dsp.send_key_state({ mods = \"$1\", key = \"$2\", state = \"down\" }))" >/dev/null
+  sleep 0.05
+  hyprctl eval "hl.dispatch(hl.dsp.send_key_state({ mods = \"$1\", key = \"$2\", state = \"up\" }))" >/dev/null
+}
+
+if ! hyprctl activewindow -j | jq -e '(.tags // []) | map(sub("\\*$"; "")) | index("terminal")' >/dev/null; then
+  send CTRL V
+elif timeout 0.5 wl-paste --list-types 2>/dev/null | grep -q '^image/'; then
+  send CTRL V
+else
+  send SHIFT Insert
+fi

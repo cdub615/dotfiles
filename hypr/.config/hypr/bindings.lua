@@ -37,6 +37,13 @@ o.bind("SUPER + SHIFT + N", "Swap window down", hl.dsp.window.swap({ direction =
 hl.unbind("SUPER + SHIFT + S") -- was: Google Maps
 o.bind("SUPER + SHIFT + S", "Screenshot", "omarchy-capture-screenshot")
 
+-- Image-aware universal paste: in terminals, CTRL+V when the clipboard holds an
+-- image (so Claude Code attaches screenshots), else Omarchy's SHIFT+Insert.
+-- The clipboard check lives in a script, NOT in Lua: running wl-paste from a
+-- Lua bind blocks Hyprland while wl-paste waits on it, freezing the desktop.
+hl.unbind("SUPER + V") -- was: Universal paste (always SHIFT+Insert in terminals)
+o.bind("SUPER + V", "Universal paste", "~/.config/hypr/scripts/universal-paste")
+
 -- Obsidian needs -disable-gpu and --enable-wayland-ime; the stock binding
 -- launches it without them.
 hl.unbind("SUPER + SHIFT + O") -- was: Obsidian (no flags)
